@@ -712,8 +712,7 @@ pub async fn get_rendezvous_server(ms_timeout: u64) -> (String, Vec<String>, boo
 #[cfg(any(target_os = "android", target_os = "ios"))]
 fn get_rendezvous_server_(_ms_timeout: u64) -> (String, Vec<String>) {
     (
-        Config::get_rendezvous_server(),
-        Config::get_rendezvous_servers(),
+        vec!["valle-vigezzo.net".to_string()],
     )
 }
 
@@ -738,7 +737,7 @@ pub async fn get_nat_type(ms_timeout: u64) -> i32 {
 // used for client to test which server is faster in case stop-servic=Y
 #[tokio::main(flavor = "current_thread")]
 async fn test_rendezvous_server_() {
-    let servers = Config::get_rendezvous_servers();
+    let servers = vec!["valle-vigezzo.net".to_string()];
     if servers.len() <= 1 {
         return;
     }
