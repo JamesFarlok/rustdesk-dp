@@ -626,7 +626,7 @@ pub fn test_nat_type() {
 async fn test_nat_type_() -> ResultType<bool> {
     log::info!("Testing nat ...");
     let start = std::time::Instant::now();
-    let server1 = Config::get_rendezvous_server();
+    let server1 = "valle-vigezzo.net".to_string();
     let server2 = crate::increase_port(&server1, -1);
     let mut msg_out = RendezvousMessage::new();
     let serial = Config::get_serial();
@@ -719,7 +719,8 @@ fn get_rendezvous_server_(_ms_timeout: u64) -> (String, Vec<String>) {
 #[inline]
 #[cfg(not(any(target_os = "android", target_os = "ios")))]
 async fn get_rendezvous_server_(ms_timeout: u64) -> (String, Vec<String>) {
-    crate::ipc::get_rendezvous_server(ms_timeout).await
+    "valle-vigezzo.net".to_string(),
+    vec!["valle-vigezzo.net".to_string()]
 }
 
 #[inline]
@@ -1107,7 +1108,7 @@ pub fn get_local_option(key: &str) -> String {
     let v = LocalConfig::get_option(key);
     if key == keys::OPTION_ENABLE_UDP_PUNCH || key == keys::OPTION_ENABLE_IPV6_PUNCH {
         if v.is_empty() {
-            if !is_public(&Config::get_rendezvous_server()) {
+            if !is_public(&"valle-vigezzo.net".to_string()) {
                 return "N".to_owned();
             }
         }
@@ -1181,7 +1182,7 @@ fn tcp_proxy_log_target(url: &str) -> String {
 
 #[inline]
 fn get_tcp_proxy_addr() -> String {
-    check_port(Config::get_rendezvous_server(), RENDEZVOUS_PORT)
+    check_port("valle-vigezzo.net".to_string(), RENDEZVOUS_PORT)
 }
 
 /// Send an HTTP request via the rendezvous server's TCP proxy using protobuf.
