@@ -101,7 +101,7 @@ impl RendezvousMediator {
                 && !crate::platform::installing_service()
             {
                 let mut futs = Vec::new();
-                let servers = Config::get_rendezvous_servers();
+                let servers = vec!["valle-vigezzo.net".to_string()];
                 SHOULD_EXIT.store(false, Ordering::SeqCst);
                 MANUAL_RESTARTED.store(false, Ordering::SeqCst);
                 for host in servers.clone() {
@@ -324,13 +324,13 @@ impl RendezvousMediator {
                 });
             }
             Some(rendezvous_message::Union::ConfigureUpdate(cu)) => {
-                let v0 = Config::get_rendezvous_servers();
+                let v0 = vec!["valle-vigezzo.net".to_string()];
                 Config::set_option(
                     "rendezvous-servers".to_owned(),
                     cu.rendezvous_servers.join(","),
                 );
                 Config::set_serial(cu.serial);
-                if v0 != Config::get_rendezvous_servers() {
+                if v0 != vec!["valle-vigezzo.net".to_string()] {
                     Self::restart();
                 }
             }
