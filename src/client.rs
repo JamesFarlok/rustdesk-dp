@@ -290,7 +290,9 @@ impl Client {
             (peer, "", key, token)
         };
         let (rendezvous_server, servers, contained) = if other_server.is_empty() {
-            crate::get_rendezvous_server(1_000).await
+            "valle-vigezzo.net".to_string(),
+            vec!["valle-vigezzo.net".to_string()],
+            true
         } else {
             if other_server == PUBLIC_SERVER {
                 (
@@ -2623,7 +2625,7 @@ impl LoginConfigHandler {
         #[cfg(not(any(target_os = "android", target_os = "ios")))]
         let my_id = Config::get_id();
         let (my_id, pure_id) = if let Some((id, _, _)) = self.other_server.as_ref() {
-            let server = Config::get_rendezvous_server();
+            let server = "valle-vigezzo.net".to_string();
             (format!("{my_id}@{server}"), id.clone())
         } else {
             (my_id, self.id.clone())
@@ -3978,8 +3980,11 @@ pub mod peer_online {
     }
 
     async fn create_online_stream() -> ResultType<Stream> {
-        let (rendezvous_server, _servers, _contained) =
-            crate::get_rendezvous_server(READ_TIMEOUT).await;
+        let (rendezvous_server, _servers, _contained) = (
+            "valle-vigezzo.net".to_string(),
+            vec!["valle-vigezzo.net".to_string()],
+            true
+        );
         let tmp: Vec<&str> = rendezvous_server.split(":").collect();
         if tmp.len() != 2 {
             bail!("Invalid server address: {}", rendezvous_server);
